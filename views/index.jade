@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  if everyauth.facebook
+    a(href="/logout") Logout
+
+    h2 #{everyauth.facebook.user.name}
+    img(src=image)
+
+    .two-columns-container
+      .two-columns-column
+        h2 Friends birthdays
+        each row in friendsByMonth
+          h3 #{row.month}
+            small (#{row.friends.length})
+          div
+            each friend in row.friends
+              img(src=friend.picture.data.url, title=friend.name + " " + friend.birthday)
+      .two-columns-column
+        h2 Friends age
+        each friends, age in friendsByAge
+          h3 #{age}
+            small (#{friends.length})
+          each friend in friends
+            img(src=friend.picture.data.url, title=friend.name + " " + friend.birthday)
+  else
+    h1
+      a(href="/auth/facebook") See your friends birthdays
